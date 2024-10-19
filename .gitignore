@@ -1,0 +1,23 @@
+# Ignore environment variables
+**/.env
+
+# Ignore node_modules
+**/node_modules/
+
+# Ignore log files
+**/*.log
+
+# Ignore temporary files
+**/tmp/
+**/temp/
+
+# Ignore build files
+**/dist/
+**/build/
+
+# Ignore configuration files (if any)
+**/*.config.js
+
+# Ignore IDE-specific files (if you're using an IDE like VSCode)
+**/.vscode/
+**/.idea/
