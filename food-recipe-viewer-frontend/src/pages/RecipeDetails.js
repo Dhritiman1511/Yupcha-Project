@@ -4,18 +4,19 @@ import { getRecipeById } from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
 
 const RecipeDetails = () => {
-    const { id } = useParams();
-    const [recipe, setRecipe] = useState(null);
-    const navigate = useNavigate();
+    const { id } = useParams(); // Get the recipe ID from URL parameters
+    const [recipe, setRecipe] = useState(null); // State to hold recipe data
+    const navigate = useNavigate(); // Hook for navigation
 
     useEffect(() => {
+        // Function to fetch recipe details
         const fetchRecipe = async () => {
             try {
-                const data = await getRecipeById(id);
-                console.log(data); // Log the fetched recipe data
-                setRecipe(data);
+                const data = await getRecipeById(id); 
+                console.log(data); 
+                setRecipe(data); 
             } catch (error) {
-                console.error('Error fetching recipe:', error);
+                console.error('Error fetching recipe:', error); // Handle fetch error
             }
         };
 
@@ -23,7 +24,7 @@ const RecipeDetails = () => {
     }, [id]);
 
     const handleEdit = () => {
-        navigate(`/recipes/edit/${id}`);
+        navigate(`/recipes/edit/${id}`); // Navigate to edit page for the recipe
     };
 
     // Ensure ingredients is an array
@@ -34,7 +35,7 @@ const RecipeDetails = () => {
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition duration-300">
             <div className="max-w-screen-lg mx-auto p-6">
-                <ThemeToggle />
+                <ThemeToggle /> 
                 {recipe ? (
                     <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-6">
                         <h1 className="text-3xl font-bold text-center mb-4 text-blue-600 dark:text-blue-400">{recipe.title}</h1>
@@ -57,7 +58,7 @@ const RecipeDetails = () => {
                         </button>
                     </div>
                 ) : (
-                    <p className="text-center text-gray-500 dark:text-gray-400">Loading...</p>
+                    <p className="text-center text-gray-500 dark:text-gray-400">Loading...</p> // Loading state
                 )}
             </div>
         </div>

@@ -5,11 +5,12 @@ import { useNavigate, Link } from "react-router-dom";
 import ThemeToggle from '../components/ThemeToggle';
 
 const RecipeList = () => {
-  const [recipes, setRecipes] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
+  const [recipes, setRecipes] = useState([]); // State for storing recipes
+  const [searchTerm, setSearchTerm] = useState(""); // State for search input
+  const navigate = useNavigate(); // Navigation hook
 
   useEffect(() => {
+    // Fetch recipes on component mount
     const fetchRecipes = async () => {
       try {
         const data = await getRecipes();
@@ -22,10 +23,12 @@ const RecipeList = () => {
     fetchRecipes();
   }, []);
 
+  // Navigate to recipe detail view
   const handleView = (id) => {
     navigate(`/recipes/${id}`);
   };
 
+  // Handle recipe deletion
   const handleDelete = async (id) => {
     try {
       await deleteRecipe(id);
@@ -37,6 +40,7 @@ const RecipeList = () => {
     }
   };
 
+  // Update bookmark status of a recipe
   const handleBookmark = async (id, currentBookmarkStatus) => {
     try {
       const updatedRecipe = { bookmarked: currentBookmarkStatus };
@@ -53,6 +57,7 @@ const RecipeList = () => {
     }
   };
 
+  // Filter recipes based on search term
   const filteredRecipes = recipes.filter((recipe) =>
     recipe.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -62,6 +67,7 @@ const RecipeList = () => {
       <div className="max-w-screen-xl mx-auto bg-white dark:bg-gray-800 shadow-lg rounded-lg p-8">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-5xl font-extrabold text-center mb-10 text-blue-600 dark:text-blue-400">
+            {/* Logo */}
             <img
               src="../egg_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
               alt="Egg Icon"
@@ -73,16 +79,17 @@ const RecipeList = () => {
             />
             RecipU
           </h1>
-          <ThemeToggle />
+          <ThemeToggle /> {/* Theme toggle component */}
         </div>
         
+        {/* Search and navigation buttons */}
         <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6">
           <div className="relative mb-4 md:mb-0">
             <input
               type="text"
               placeholder="Search recipes..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value)} // Update search term
               className="p-3 pl-10 w-full border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 dark:bg-gray-700 dark:text-white dark:border-gray-600"
             />
             <svg
@@ -144,6 +151,7 @@ const RecipeList = () => {
           </div>
         </div>
         
+        {/* Render filtered recipes or a message if none found */}
         {filteredRecipes.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredRecipes.map((recipe) => (

@@ -4,50 +4,52 @@ import { getRecipeById, updateRecipe } from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
 
 const EditRecipe = () => {
-  const { id } = useParams();
-  const [title, setTitle] = useState('');
-  const [ingredients, setIngredients] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [image, setImage] = useState('');
-  const navigate = useNavigate();
+  const { id } = useParams(); // Get recipe ID from URL parameters
+  const [title, setTitle] = useState(''); // State for recipe title
+  const [ingredients, setIngredients] = useState(''); // State for ingredients
+  const [instructions, setInstructions] = useState(''); // State for instructions
+  const [image, setImage] = useState(''); // State for image URL
+  const navigate = useNavigate(); // Navigation hook
 
+  // Fetch the recipe details when the component mounts
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
-        const data = await getRecipeById(id);
+        const data = await getRecipeById(id); // Get recipe data by ID
         setTitle(data.title);
-        setIngredients(data.ingredients.join(', ')); // Join ingredients for the input
+        setIngredients(data.ingredients.join(', ')); // Join ingredients for input display
         setInstructions(data.instructions);
         setImage(data.image);
       } catch (error) {
-        console.error('Error fetching recipe:', error);
+        console.error('Error fetching recipe:', error); // Log error if fetching fails
       }
     };
 
-    fetchRecipe();
-  }, [id]);
+    fetchRecipe(); // Call the fetch function
+  }, [id]); // Dependency on ID so it re-runs when ID changes
 
+  // Handle form submission to update the recipe
   const handleSubmit = async (e) => {
     e.preventDefault();
     const updatedRecipe = {
       title,
-      ingredients: ingredients.split(',').map((ing) => ing.trim()),
+      ingredients: ingredients.split(',').map((ing) => ing.trim()), // Split ingredients into an array
       instructions,
       image,
     };
 
     try {
-      await updateRecipe(id, updatedRecipe);
-      navigate(`/recipes/${id}`); // Redirect to the recipe details page after successful update
+      await updateRecipe(id, updatedRecipe); // Update recipe via API
+      navigate(`/recipes/${id}`); // Redirect to the recipe details page after update
     } catch (error) {
-      console.error('Error updating recipe:', error);
+      console.error('Error updating recipe:', error); // Log error if updating fails
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition duration-300">
       <div className="max-w-md mx-auto p-6">
-        <ThemeToggle />
+        <ThemeToggle /> {/* Theme toggle component */}
         <h1 className="text-3xl font-bold text-center mb-6 text-blue-600 dark:text-blue-400">Edit Recipe</h1>
         <form onSubmit={handleSubmit} className="space-y-4 bg-white dark:bg-gray-800 p-6 shadow-lg rounded-lg">
           <div>

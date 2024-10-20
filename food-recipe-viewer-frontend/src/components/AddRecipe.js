@@ -4,31 +4,32 @@ import { createRecipe } from '../services/api';
 import ThemeToggle from '../components/ThemeToggle';
 
 const AddRecipe = () => {
-    const [title, setTitle] = useState('');
-    const [ingredients, setIngredients] = useState('');
-    const [instructions, setInstructions] = useState('');
-    const [image, setImage] = useState('');
-    const navigate = useNavigate();
+    const [title, setTitle] = useState(''); // State for recipe title
+    const [ingredients, setIngredients] = useState(''); // State for ingredients
+    const [instructions, setInstructions] = useState(''); // State for instructions
+    const [image, setImage] = useState(''); // State for image URL
+    const navigate = useNavigate(); // Navigation hook
 
+    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await createRecipe({ 
                 title, 
-                ingredients: ingredients.split(',').map(ing => ing.trim()), 
+                ingredients: ingredients.split(',').map(ing => ing.trim()), // Split ingredients into an array
                 instructions, 
                 image 
             });
-            navigate('/'); // Redirect to the home page or recipes list after adding
+            navigate('/'); // Redirect to home after adding
         } catch (error) {
-            console.error('Error creating recipe:', error);
+            console.error('Error creating recipe:', error); // Log error if creation fails
         }
     };
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition duration-300 pt-10">
-            <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md ">
-                <ThemeToggle />
+            <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+                <ThemeToggle /> {/* Theme toggle component */}
                 <h2 className="text-2xl font-bold mb-4 text-blue-600 dark:text-blue-400">Add Recipe</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
